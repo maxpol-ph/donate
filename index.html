@@ -91,7 +91,7 @@ var A={ '₱':[200,500,1000,3000,5000,7500,10000], '$':[10,20,30,50,100,150,200]
 var SYM={ '₱':'₱', '$':'$' };
 function money(v,c){ return c==='₱' ? '₱'+v.toLocaleString('en-US') : '$'+v; }
 function render(){
-  document.getElementById('cursym').textContent=SYM[cur];
+  var cs=document.getElementById('cursym'); if(cs) cs.textContent=SYM[cur];
   document.getElementById('chips').innerHTML=A[cur].map(function(v){
     return '<button class="chip" data-v="'+v+'">'+money(v,cur)+'</button>';}).join('');
   bindChips();
@@ -99,7 +99,7 @@ function render(){
   document.querySelectorAll('.cur button').forEach(function(b){b.classList.toggle('on', b.dataset.c===cur);});
 }
 function setAmount(v){
-  document.getElementById('amt').innerHTML='<small>'+SYM[cur]+'</small>'+v.toLocaleString('en-US');
+  document.getElementById('amt').innerHTML='<small id="cursym">'+SYM[cur]+'</small>'+v.toLocaleString('en-US');
   var c=document.getElementById('conv');
   c.textContent = cur==='₱' ? ('≈ $'+(v/RATE).toFixed(1)) : ('≈ ₱'+Math.round(v*RATE).toLocaleString('en-US'));
   document.querySelectorAll('#chips .chip').forEach(function(x){x.classList.toggle('on', String(x.dataset.v)===String(v));});
