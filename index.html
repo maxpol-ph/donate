@@ -111,4 +111,15 @@ document.querySelectorAll('.seg button').forEach(function(b){b.onclick=function(
   document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on')});
   document.getElementById('p-'+b.dataset.p).classList.add('on');};});
 render();
+
+/* открывать сразу нужную вкладку: ?pay=gcash / ?pay=maya / ?pay=wise */
+(function(){
+  var map={wise:'w',card:'w',gcash:'g',maya:'m'};
+  var q=(new URLSearchParams(location.search).get('pay')||'').toLowerCase();
+  var key=map[q];
+  if(!key) return;
+  var btn=document.querySelector('.seg button[data-p="'+key+'"]');
+  if(btn) btn.click();
+  setTimeout(function(){var pane=document.getElementById('p-'+key);if(pane)pane.scrollIntoView({behavior:'smooth',block:'center'});},500);
+})();
 </script></body></html>
